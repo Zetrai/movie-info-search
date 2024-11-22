@@ -9,7 +9,7 @@ export const MovieProvider = ({ children }) => {
 
   return (
     <MovieContext.Provider value={{ movies, setMovies }}>
-{children}
+      {children}
     </MovieContext.Provider>
   );
 };

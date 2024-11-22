@@ -1,10 +1,9 @@
-import { MovieDetail, MovieList, MovieSearch } from "./components";
+import { MovieDetail, MovieList, MovieSearch, Hero } from './components';
 
 const App = () => {
   return (
-    <div>
-      <h1>Movie Vault</h1>
-      <MovieSearch />
+    <div className="relative h-screen bg-backgroundDark">
+      <Hero />
       <MovieList />
     </div>
   );
