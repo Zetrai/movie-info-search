@@ -1,0 +1,63 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;700&family=Julius+Sans+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Saira:wght@400;600&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+/* Light mode */
+html {
+  background-color: #efefef;
+  scroll-padding-top: 15vh;
+  overflow-y: auto;
+}
+body {
+  overflow-y: auto;
+}
+
+/* Dark mode */
+html.dark {
+  background-color: #0f172a;
+}
+
+/* Custom scrollbar styles for WebKit browsers (Chrome, Safari) */
+::-webkit-scrollbar {
+  width: 5px; /* Width of the vertical scrollbar */
+  height: 12px; /* Height of the horizontal scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: #e7fff6; /* Background of the scrollbar track */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4fd2a3; /* Color of the scrollbar handle */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #0da06a; /* Darker shade on hover */
+}
+
+@layer components {
+}
+
+@layer utilities {
+  .flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .grid-center {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+  }
+}
