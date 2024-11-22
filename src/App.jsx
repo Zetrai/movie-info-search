@@ -1,13 +1,12 @@
-import { useState } from 'react'
-  
-function App() {
-  const [count, setCount] = useState(0)
+import { MovieDetail, MovieList, MovieSearch } from "./components";
 
+const App = () => {
   return (
-    <>
-      App
-    </>
-  )
-}
-
-export default App
+    <div>
+      <h1>Movie Vault</h1>
+      <MovieSearch />
+      <MovieList />
+    </div>
+  );
+};
+export default App;
