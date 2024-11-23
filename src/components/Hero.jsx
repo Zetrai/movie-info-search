@@ -3,7 +3,7 @@ import MovieSearch from './MovieSearch';
 
 const Hero = () => {
   return (
-    <div className="relative mb-20">
+    <div className="relative">
       <img
         src={movieHeroImg}
         alt="movie-backdrop"

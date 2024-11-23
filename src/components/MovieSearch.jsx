@@ -36,7 +36,7 @@ const MovieSearch = () => {
             director: omdbDetails.data.Director,
             writer: omdbDetails.data.Writer,
             actors: omdbDetails.data.Actors,
-            genre: omdbDetails.data.Genre,
+            genres: omdbDetails.data.Genre?.split(', ') || [],
             imdbRating: omdbDetails.data.imdbRating,
             imdbVotes: omdbDetails.data.imdbVotes,
             boxOfOffice: omdbDetails.data.BoxOffice,
@@ -54,7 +54,7 @@ const MovieSearch = () => {
   };
 
   return (
-    <div className="flex-center relative m-[-28px] w-full">
+    <div className="flex-center relative m-[-33px]">
       <div className="flex-center group relative flex-row">
         <SearchIcon className="absolute left-4 top-1/2 size-7 -translate-y-1/2 transform" />
         <input
@@ -62,7 +62,7 @@ const MovieSearch = () => {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search for a movie..."
-          className="min-h-14 min-w-[300px] rounded-xl border-0 border-white/40 bg-[#20293A] px-6 py-4 pl-14 text-textDark focus:border-4 focus:outline-none group-hover:border-4 sm:min-w-[400px] lg:min-w-[600px]"
+          className="min-h-[4rem] min-w-[300px] rounded-xl border-0 border-white/40 bg-[#20293A] px-6 py-4 pl-14 text-textDark focus:border-4 focus:outline-none group-hover:border-4 sm:min-w-[400px] lg:min-w-[600px]"
         />
         <div className="absolute right-14 h-3/6 border border-white opacity-0 transition-opacity duration-200 group-hover:opacity-10" />
         <RightArrowIcon

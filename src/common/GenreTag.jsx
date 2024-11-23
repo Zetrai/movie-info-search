@@ -1,4 +1,6 @@
 const GenreTag = ({ genre }) => {
-  return <span className="p-2 font-saira">{genre}</span>;
+  return (
+    <span className="rounded-full bg-[#2a478c] px-2 font-saira">{genre}</span>
+  );
 };
 export default GenreTag;

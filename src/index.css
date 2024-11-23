@@ -16,10 +16,11 @@
 html {
   background-color: #efefef;
   scroll-padding-top: 15vh;
-  overflow-y: hidden;
+  overflow: hidden;
 }
 body {
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 /* Dark mode */

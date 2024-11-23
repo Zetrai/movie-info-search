@@ -7,7 +7,7 @@ const MovieList = () => {
   const { movies } = useContext(MovieContext); // Access the movies array
 
   return (
-    <div className="min-h-[85vh] bg-backgroundDark">
+    <div className="mt-20 min-h-[85vh] bg-backgroundDark">
       {movies.length === 0 ? (
         <p>No movies found. Try searching!</p>
       ) : (
