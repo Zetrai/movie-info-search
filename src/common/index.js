@@ -1,3 +1,5 @@
-import MovieCard from "./MovieCard";
+import MovieCard from './MovieCard';
+import LoadSpinner from './LoadSpinner';
+import GenreTag from './GenreTag';
 
-export { MovieCard };
+export { MovieCard, GenreTag, LoadSpinner };

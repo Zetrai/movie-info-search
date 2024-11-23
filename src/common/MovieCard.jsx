@@ -1,4 +1,4 @@
-import GenreTag from './GenreTag';
+import { GenreTag, LoadSpinner } from './';
 
 const MovieCard = ({ movie }) => {
   const {
@@ -15,7 +15,6 @@ const MovieCard = ({ movie }) => {
   } = movie;
 
   const imageUrl = `https://image.tmdb.org/t/p/w500/${poster_path}`;
-  console.log(genres);
 
   return (
     <div className="m-2 flex h-auto w-2/4 flex-row gap-4 rounded-2xl border-2 border-white/30 p-3 text-textDark shadow-md shadow-gray-600">
@@ -41,7 +40,12 @@ const MovieCard = ({ movie }) => {
           Stars: <span className="font-bold">{actors}</span>
         </p>
         <p>
-          IMBDb Rating: <span className="font-bold">{imdbRating}</span>
+          IMBDb Rating:{' '}
+          <span className="font-bold">
+            {imdbRating}{' '}
+            <span className="text-sm font-normal">({imdbVotes})</span>
+          </span>
+          <span className="float-end">{boxOfOffice || ''}</span>
         </p>
       </div>
     </div>
