@@ -25,7 +25,7 @@ const MovieCard = ({ movie }) => {
       />
       <div className="flex h-full flex-col justify-center">
         <h1 className="font-juliusSans text-[30px] font-bold">{title}</h1>
-        <div className="mb-4 mt-2 grid grid-cols-3 items-start justify-center gap-1 text-xs sm:text-sm lg:gap-4 lg:text-base">
+        <div className="mb-4 mt-2 grid grid-cols-3 items-start justify-center gap-1 text-xs sm:text-sm lg:grid-cols-4 lg:gap-4 lg:text-base">
           {genres &&
             genres.map((genre) => <GenreTag genre={genre} key={genre} />)}
         </div>
