@@ -52,10 +52,6 @@ const MovieSearch = () => {
         }),
       );
 
-      // const filteredMovies = movies.filter((movie) => {
-      //   return movie.boxOfOffice && movie.boxOfOffice.trim() !== '';
-      // });
-
       // Decide sorting strategy
       const sortedMovies = movies.sort((a, b) => {
         // Example: Sort by IMDb Votes, then by IMDb Rating as a tiebreaker
