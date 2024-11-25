@@ -7,9 +7,9 @@ const Hero = () => {
       <img
         src={movieHeroImg}
         alt="movie-backdrop"
-        className="h-[200px] w-full sm:h-[300px] lg:h-[400px]"
+        className="h-[150px] w-full sm:h-[300px] lg:h-[400px]"
       />
-      <h1 className="absolute right-4 top-8 -translate-y-1/2 font-montserrat text-3xl text-textDark lg:text-4xl">
+      <h1 className="absolute right-4 top-8 -translate-y-1/2 font-montserrat text-2xl text-textDark xs:text-3xl md:text-3xl lg:text-4xl">
         Movie Vault
       </h1>
       <MovieSearch />

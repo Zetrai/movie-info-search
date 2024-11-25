@@ -17,15 +17,15 @@ const MovieCard = ({ movie }) => {
   const imageUrl = `https://image.tmdb.org/t/p/w500/${poster_path}`;
 
   return (
-    <div className="m-2 flex h-auto w-2/4 flex-row gap-4 rounded-2xl border-2 border-white/30 p-3 text-textDark shadow-md shadow-gray-600">
+    <div className="] m-2 flex h-auto w-3/4 flex-col gap-4 rounded-2xl border-2 border-white/30 p-3 text-textDark shadow-md shadow-gray-600 lg:w-2/4 lg:flex-row">
       <img
         src={imageUrl}
         alt={title}
-        className="h-[300px] w-[200px] rounded-2xl"
+        className="h-[350px] w-full rounded-2xl lg:h-[300px] lg:w-[200px]"
       />
       <div className="flex h-full flex-col justify-center">
         <h1 className="font-juliusSans text-[30px] font-bold">{title}</h1>
-        <div className="mb-4 mt-2 flex flex-row items-center gap-4">
+        <div className="mb-4 mt-2 grid grid-cols-3 items-start justify-center gap-1 text-xs sm:text-sm lg:gap-4 lg:text-base">
           {genres &&
             genres.map((genre) => <GenreTag genre={genre} key={genre} />)}
         </div>
