@@ -2,11 +2,7 @@ import { useContext, useState } from 'react';
 import axios from 'axios';
 
 import { MovieContext } from '../contexts/MovieContext';
-import {
-  getMovieDataByName,
-  getMovieDetails,
-  getOMDBDetails,
-} from '../services/getData';
+import { fetchMoviesByName } from '../services/getData';
 
 import { SearchIcon, RightArrowIcon } from '../assets';
 import { BallTriangle } from 'react-loader-spinner';
@@ -26,40 +22,7 @@ const MovieSearch = () => {
     setLoading(true); // Start loading when search begins
 
     try {
-      const response = await getMovieDataByName(query);
-
-      const movies = await Promise.all(
-        response.data.results.map(async (movie) => {
-          const tmdbDetails = await getMovieDetails(movie.id);
-
-          const omdbDetails = await getOMDBDetails(tmdbDetails.data.imdb_id);
-
-          // Combine TMDb and OMDb data into the movie object
-          return {
-            ...movie,
-            director: omdbDetails.data.Director,
-            writer: omdbDetails.data.Writer,
-            actors: omdbDetails.data.Actors,
-            genres: omdbDetails.data.Genre?.split(', ') || [],
-            imdbRating: parseFloat(omdbDetails.data.imdbRating) || 0, // Ensure numeric value
-            imdbVotes:
-              parseInt(omdbDetails.data.imdbVotes?.replace(/,/g, '')) || 0, // Convert votes to number
-            boxOfOffice:
-              omdbDetails.data.BoxOffice !== 'N/A'
-                ? omdbDetails.data.BoxOffice
-                : '',
-          };
-        }),
-      );
-
-      // Decide sorting strategy
-      const sortedMovies = movies.sort((a, b) => {
-        // Example: Sort by IMDb Votes, then by IMDb Rating as a tiebreaker
-        if (b.imdbVotes !== a.imdbVotes) {
-          return b.imdbVotes - a.imdbVotes; // Prioritize popular movies
-        }
-        return b.imdbRating - a.imdbRating; // Tiebreaker by rating
-      });
+      const sortedMovies = await fetchMoviesByName(query);
 
       setMovies(sortedMovies); // Update the global movie list
     } catch (error) {

@@ -91,3 +91,41 @@ export const getMovieDetails = async (_id) => {
 export const getOMDBDetails = async (_id) => {
   return await axios.get(`${baseUrl_OMDB}&i=${_id}`);
 };
+
+export const fetchMoviesByName = async (_query) => {
+  const response = await getMovieDataByName(_query);
+
+  const movies = await Promise.all(
+    response.data.results.map(async (movie) => {
+      const tmdbDetails = await getMovieDetails(movie.id);
+
+      const omdbDetails = await getOMDBDetails(tmdbDetails.data.imdb_id);
+
+      // Combine TMDb and OMDb data into the movie object
+      return {
+        ...movie,
+        director: omdbDetails.data.Director,
+        writer: omdbDetails.data.Writer,
+        actors: omdbDetails.data.Actors,
+        genres: omdbDetails.data.Genre?.split(', ') || [],
+        imdbRating: parseFloat(omdbDetails.data.imdbRating) || 0, // Ensure numeric value
+        imdbVotes: parseInt(omdbDetails.data.imdbVotes?.replace(/,/g, '')) || 0, // Convert votes to number
+        boxOfOffice:
+          omdbDetails.data.BoxOffice !== 'N/A'
+            ? omdbDetails.data.BoxOffice
+            : '',
+      };
+    }),
+  );
+
+  // Decide sorting strategy
+  const sortedMovies = movies.sort((a, b) => {
+    // Example: Sort by IMDb Votes, then by IMDb Rating as a tiebreaker
+    if (b.imdbVotes !== a.imdbVotes) {
+      return b.imdbVotes - a.imdbVotes; // Prioritize popular movies
+    }
+    return b.imdbRating - a.imdbRating; // Tiebreaker by rating
+  });
+
+  return sortedMovies;
+};
