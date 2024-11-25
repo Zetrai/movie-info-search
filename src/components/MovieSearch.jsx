@@ -2,17 +2,17 @@ import { useContext, useState } from 'react';
 import axios from 'axios';
 
 import { MovieContext } from '../contexts/MovieContext';
-import { SearchIcon, RightArrowIcon } from '../assets';
 import {
-  BallTriangle,
-  FallingLines,
-  LineWave,
-  MagnifyingGlass,
-  TailSpin,
-} from 'react-loader-spinner';
+  getMovieDataByName,
+  getMovieDetails,
+  getOMDBDetails,
+} from '../services/getData';
+
+import { SearchIcon, RightArrowIcon } from '../assets';
+import { BallTriangle } from 'react-loader-spinner';
 
 const MovieSearch = () => {
-  const { movies, setMovies } = useContext(MovieContext); // Access the setter
+  const { setMovies } = useContext(MovieContext); // Access the setter
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -22,21 +22,17 @@ const MovieSearch = () => {
 
   const handleSearch = async () => {
     if (!query.trim()) return; // Prevent empty queries
+
     setLoading(true); // Start loading when search begins
+
     try {
-      const response = await axios.get(
-        `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY_MOVIE_DB}&query=${query}`,
-      );
+      const response = await getMovieDataByName(query);
 
       const movies = await Promise.all(
         response.data.results.map(async (movie) => {
-          const tmdbDetails = await axios.get(
-            `https://api.themoviedb.org/3/movie/${movie.id}?api_key=${API_KEY_MOVIE_DB}`,
-          );
+          const tmdbDetails = await getMovieDetails(movie.id);
 
-          const omdbDetails = await axios.get(
-            `${baseUrl_OMDB}&i=${tmdbDetails.data.imdb_id}`,
-          );
+          const omdbDetails = await getOMDBDetails(tmdbDetails.data.imdb_id);
 
           // Combine TMDb and OMDb data into the movie object
           return {
@@ -45,8 +41,9 @@ const MovieSearch = () => {
             writer: omdbDetails.data.Writer,
             actors: omdbDetails.data.Actors,
             genres: omdbDetails.data.Genre?.split(', ') || [],
-            imdbRating: omdbDetails.data.imdbRating,
-            imdbVotes: omdbDetails.data.imdbVotes,
+            imdbRating: parseFloat(omdbDetails.data.imdbRating) || 0, // Ensure numeric value
+            imdbVotes:
+              parseInt(omdbDetails.data.imdbVotes?.replace(/,/g, '')) || 0, // Convert votes to number
             boxOfOffice:
               omdbDetails.data.BoxOffice !== 'N/A'
                 ? omdbDetails.data.BoxOffice
@@ -55,13 +52,18 @@ const MovieSearch = () => {
         }),
       );
 
-      const filteredMovies = movies.filter((movie) => {
-        return movie.boxOfOffice && movie.boxOfOffice.trim() !== '';
-      });
+      // const filteredMovies = movies.filter((movie) => {
+      //   return movie.boxOfOffice && movie.boxOfOffice.trim() !== '';
+      // });
 
-      const sortedMovies = filteredMovies.sort(
-        (a, b) => b.imdbRating - a.imdbRating,
-      );
+      // Decide sorting strategy
+      const sortedMovies = movies.sort((a, b) => {
+        // Example: Sort by IMDb Votes, then by IMDb Rating as a tiebreaker
+        if (b.imdbVotes !== a.imdbVotes) {
+          return b.imdbVotes - a.imdbVotes; // Prioritize popular movies
+        }
+        return b.imdbRating - a.imdbRating; // Tiebreaker by rating
+      });
 
       setMovies(sortedMovies); // Update the global movie list
     } catch (error) {
